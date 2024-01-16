@@ -1,8 +1,8 @@
 package handler
 
 import (
+	"ej-ex3-backend/database"
 	"ej-ex3-backend/helper"
-	"ej-ex3-backend/model"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -21,7 +21,7 @@ func Login(ctx *gin.Context) {
 		ctx.Abort()
 	}
 
-	user := model.GetUser(RequestJson.Email)
+	user := database.GetUser(RequestJson.Email)
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(RequestJson.Password))
 	if err != nil {
