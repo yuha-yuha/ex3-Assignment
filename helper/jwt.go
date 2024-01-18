@@ -2,6 +2,7 @@ package helper
 
 import (
 	"ej-ex3-backend/model"
+	"fmt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -19,4 +20,20 @@ func CreateJWT(user model.User) string {
 
 	return accessToken
 
+}
+
+func CheckJWT(tokenStr string) (*jwt.Token, error) {
+	token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method")
+		}
+
+		return []byte("ACCESS_SECRET_KEY"), nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return token, nil
 }

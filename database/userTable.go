@@ -16,13 +16,18 @@ func GetUser(email string) model.User {
 	return user
 }
 
-func CreateUser(user model.User) {
+func CreateUser(user model.User) error {
+
+	var err error
+
 	db := DBconn()
 
 	BytesPassword := []byte(user.Password)
 	HashedPassword, _ := bcrypt.GenerateFromPassword(BytesPassword, 5)
 	user.Password = string(HashedPassword)
 
-	db.Create(&user)
+	err = db.Create(&user).Error
+
+	return err
 
 }
