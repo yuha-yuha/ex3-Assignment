@@ -2,7 +2,9 @@ package controller
 
 import (
 	"ej-ex3-backend/controller/handler"
+	"ej-ex3-backend/database"
 	"ej-ex3-backend/middleware"
+	"ej-ex3-backend/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +21,10 @@ func Router() *gin.Engine {
 		authRouter.Use(middleware.AuthCheckMiddleware)
 		{
 			authRouter.GET("/hello", func(ctx *gin.Context) {
-				ctx.String(200, "hello")
+				var user model.User
+				database.CurrentUser(ctx, &user)
+
+				ctx.JSON(200, user)
 			})
 		}
 	}
