@@ -20,12 +20,14 @@ func Router() *gin.Engine {
 		authRouter := apiRouter.Group("/auth")
 		authRouter.Use(middleware.AuthCheckMiddleware)
 		{
-			authRouter.GET("/hello", func(ctx *gin.Context) {
+			authRouter.GET("/quizes", func(ctx *gin.Context) {
 				var user model.User
 				database.CurrentUser(ctx, &user)
 
 				ctx.JSON(200, user)
 			})
+			authRouter.POST("/words", handler.CreateWordByUser)
+			authRouter.GET("/words", handler.GetALLWordsByUser)
 		}
 	}
 	return r
