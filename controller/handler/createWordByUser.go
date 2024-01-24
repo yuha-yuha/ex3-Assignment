@@ -24,7 +24,7 @@ func CreateWordByUser(ctx *gin.Context) {
 
 	word.UserID = user.ID
 
-	database.CreateWord(word)
+	database.CreateWord(word, user)
 
 	if err != nil {
 		log.Println(err)

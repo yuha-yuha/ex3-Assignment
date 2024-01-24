@@ -8,7 +8,7 @@ import (
 )
 
 func GetALLWordsByUsers(ctx *gin.Context) {
-	uw, err := database.GetALLUserWords()
+	uw, err := database.GetALLUsersWords()
 	if err != nil {
 		log.Println(err)
 		ctx.AbortWithStatus(500)
