@@ -15,13 +15,17 @@ func GetUserById(ctx *gin.Context) {
 	if err != nil {
 		log.Println(id)
 		ctx.AbortWithStatus(400)
+		log.Println("errrrrrr")
+		return
 	}
 
+	log.Println("aiueo")
 	user, err := database.FindUserById(int64(id))
 
 	if err != nil {
 		log.Println(err)
-		ctx.AbortWithStatus(500)
+		ctx.AbortWithStatus(400)
+		return
 	}
 
 	ctx.JSON(200, user)

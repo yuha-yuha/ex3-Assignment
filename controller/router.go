@@ -15,6 +15,8 @@ func Router() *gin.Engine {
 	r.POST("/login", handler.Login)
 	r.POST("/signup", handler.SignUp)
 
+	r.GET("/users/:id", handler.GetUserById)
+	r.GET("/users/:id/words", handler.GetALLWordsByUser)
 	apiRouter := r.Group("/api/")
 	{
 		authRouter := apiRouter.Group("/auth")
@@ -27,8 +29,9 @@ func Router() *gin.Engine {
 				ctx.JSON(200, user)
 			})
 			authRouter.POST("/words", handler.CreateWordByUser)
-			authRouter.GET("/words", handler.GetALLWordsByUser)
+			authRouter.GET("/words", handler.GetALLWordsByUsers)
 		}
 	}
+
 	return r
 }
