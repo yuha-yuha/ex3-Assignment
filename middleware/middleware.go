@@ -14,6 +14,7 @@ func AuthCheckMiddleware(ctx *gin.Context) {
 		log.Println(err)
 		ctx.Status(403)
 		ctx.Abort()
+		return
 	}
 
 	_, err = helper.CheckJWT(jwtStr)
@@ -22,6 +23,7 @@ func AuthCheckMiddleware(ctx *gin.Context) {
 		log.Println(err)
 		ctx.Status(403)
 		ctx.Abort()
+		return
 	}
 
 	ctx.Next()

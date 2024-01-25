@@ -19,9 +19,13 @@ func Login(ctx *gin.Context) {
 
 	err := ctx.BindJSON(&RequestJson)
 	if err != nil {
+		log.Println("bind")
 		ctx.Status(403)
 		ctx.Abort()
+		return
 	}
+
+	log.Println("aiueo")
 
 	user := database.GetUser(RequestJson.Email)
 
@@ -29,7 +33,10 @@ func Login(ctx *gin.Context) {
 	if err != nil {
 		ctx.Status(403)
 		ctx.Abort()
+		return
 	}
+
+	log.Println("kkiksdk")
 
 	token := helper.CreateJWT(user)
 
@@ -48,6 +55,7 @@ func SignUp(ctx *gin.Context) {
 	if err != nil {
 		log.Println(err)
 		ctx.Abort()
+		return
 	}
 
 	log.Println(SignUpRequest)
@@ -61,6 +69,7 @@ func SignUp(ctx *gin.Context) {
 	if err = database.CreateUser(user); err != nil {
 		log.Println(err)
 		ctx.Status(400)
+		return
 	}
 
 	ctx.Status(200)

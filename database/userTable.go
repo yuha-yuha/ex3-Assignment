@@ -8,6 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm/logger"
 )
 
 func GetUser(email string) model.User {
@@ -41,7 +42,9 @@ func FindUserById(id int64) (model.User, error) {
 	db := DBconn()
 	var user model.User
 
-	db.First(&user, id)
+	db.Logger = db.Logger.LogMode(logger.Info)
+
+	err = db.Preload("UserWords").First(&user, id).Error
 
 	return user, err
 }
@@ -52,6 +55,7 @@ func CurrentUser(ctx *gin.Context, user *model.User) {
 	if err != nil {
 		log.Println(err)
 		ctx.AbortWithStatus(403)
+		return
 	}
 
 	token, err := helper.CheckJWT(tokenStr)
@@ -59,6 +63,7 @@ func CurrentUser(ctx *gin.Context, user *model.User) {
 	if err != nil {
 		log.Println(err)
 		ctx.AbortWithStatus(403)
+		return
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
@@ -66,6 +71,7 @@ func CurrentUser(ctx *gin.Context, user *model.User) {
 
 		if err != nil {
 			ctx.AbortWithError(403, err)
+			return
 		}
 
 	} else {
