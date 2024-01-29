@@ -13,9 +13,6 @@ import (
 func Router() *gin.Engine {
 	r := gin.Default()
 
-	r.POST("/login", handler.Login)
-	r.POST("/signup", handler.SignUp)
-
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:5173",
@@ -23,11 +20,17 @@ func Router() *gin.Engine {
 
 		AllowMethods: []string{
 			"GET",
+			"POST",
 		},
+		AllowCredentials: true,
+
+		AllowHeaders: []string{"content-type"},
 	}))
 
 	apiRouter := r.Group("/api/")
 	{
+		apiRouter.POST("/login", handler.Login)
+		apiRouter.POST("/signup", handler.SignUp)
 		apiRouter.GET("/users/:id", handler.GetUserById)
 		apiRouter.GET("/users/:id/words", handler.GetALLWordsByUser)
 		apiRouter.GET("/words", handler.GetALLWordsByUsers)

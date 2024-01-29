@@ -7,11 +7,12 @@ import router from '@/router';
 
     const inputEmail = ref('') 
     const inputPassword = ref('')
+    const inputName = ref('')
     const faildLogin = ref('')
 
     async function Submit() {
         try {
-            await sessionStore.login(inputEmail.value, inputPassword.value)
+            await sessionStore.SignUp(inputEmail.value, inputPassword.value, inputName.value)
             router.push('/')
         }catch(error) {
             faildLogin.value = '失敗w' + error
@@ -24,12 +25,17 @@ import router from '@/router';
     <v-app>
         <v-card width="80vw" class="login-block">
             <v-card-title >
-                login
+                SignUp
             </v-card-title>
 
             <v-text-field 
                 v-model="inputEmail"
                 label="email"
+                variant="outlined">
+            </v-text-field>
+            <v-text-field
+                v-model="inputName"
+                label="name"
                 variant="outlined">
             </v-text-field>
 
@@ -40,6 +46,7 @@ import router from '@/router';
                 variant="outlined">
                 
             </v-text-field>
+
             
 
             <v-btn @click="Submit">送信</v-btn>

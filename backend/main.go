@@ -11,5 +11,5 @@ func init() {
 func main() {
 	r := controller.Router()
 
-	r.Run()
+	r.Run(":8080")
 }

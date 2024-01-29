@@ -31,17 +31,17 @@ func Login(ctx *gin.Context) {
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(RequestJson.Password))
 	if err != nil {
-		ctx.Status(403)
-		ctx.Abort()
+		ctx.AbortWithError(403, err)
 		return
 	}
 
 	log.Println("kkiksdk")
 
 	token := helper.CreateJWT(user)
-
-	ctx.SetCookie("token", token, 3600, "/", "localhost", false, true)
-
+	//ctx.SetCookie("token", token, 3600, "/", "localhost", false, true)
+	ctx.JSON(200, gin.H{
+		"token": token,
+	})
 }
 
 func SignUp(ctx *gin.Context) {

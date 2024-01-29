@@ -8,19 +8,14 @@ import (
 )
 
 func AuthCheckMiddleware(ctx *gin.Context) {
-	jwtStr, err := ctx.Cookie("token")
+	//jwtStr, err := ctx.Cookie("token")
+	//フロントと時間の関係でCookieの使用はやめてURLクエリを使用
+	token := ctx.Query("token")
+
+	_, err := helper.CheckJWT(token)
 
 	if err != nil {
-		log.Println(err)
-		ctx.Status(403)
-		ctx.Abort()
-		return
-	}
-
-	_, err = helper.CheckJWT(jwtStr)
-
-	if err != nil {
-		log.Println(err)
+		log.Println("aiueo", err)
 		ctx.Status(403)
 		ctx.Abort()
 		return

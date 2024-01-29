@@ -51,12 +51,7 @@ func FindUserById(id int64) (model.User, error) {
 
 func CurrentUser(ctx *gin.Context, user *model.User) {
 
-	tokenStr, err := ctx.Cookie("token")
-	if err != nil {
-		log.Println(err)
-		ctx.AbortWithStatus(403)
-		return
-	}
+	tokenStr := ctx.Query("token")
 
 	token, err := helper.CheckJWT(tokenStr)
 

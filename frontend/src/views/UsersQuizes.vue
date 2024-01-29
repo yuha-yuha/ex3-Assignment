@@ -31,6 +31,7 @@
             if (wordList.value.length === 0) {
                 word.value.japanese = "終了！！！！ホームに戻れ！！！！"
                 word.value.english = ""
+                word.value.english
             } else {
                 PopWord()
                 
